@@ -1,7 +1,10 @@
 const users = [
     {
         userId: 203,
-        name: Jourdann,
+        name: {
+            first: "Jourdann",
+            last: "Fraser"
+        },
         profilePic: "",
         cardsCollected: 2,
         bio: "I'm just a person who loves collecting cards!",
@@ -9,7 +12,10 @@ const users = [
     },
     {
         userId: 204,
-        name: Cameron,
+        name: {
+            first: "Cameron",
+            last: "Smith"
+        },
         profilePic: "",
         cardsCollected: 0,
         bio: "",
@@ -17,7 +23,11 @@ const users = [
     },
     {
         userId: 205,
-        name: Amber,
+        username: iLoveCards123,
+        name: {
+            first: "Amber",
+            last: "Peters"
+        },
         profilePic: "",
         cardsCollected: 3,
         bio: "DM for selling opportunities...",
