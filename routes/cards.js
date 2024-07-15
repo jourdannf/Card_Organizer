@@ -76,10 +76,34 @@ router
 router
     .route("/:id")
     .put((req,res,next) => {
+        //Find the card with that specific ID
+        //Update with information from body
 
+        const card = cards.find((c) => {
+            if (c.id == req.params.id) {
+                for (const key in req.body){
+                    c[key] = req.body[key];
+                }
+                return true;
+            }
+        });
+
+        if (card) res.json(card);
+        else next();
     })
     .delete((req, res, next) => {
+        //Find the card with that specific ID
+        //Delete from cards array
 
+        const card = cards.find((c, i) => {
+            if (c.id == req.params.id) {
+                cards.splice(i, 1);
+                return true
+            }
+        });
+
+        if (card) res.json(card);
+        else next();
     })
 
 
