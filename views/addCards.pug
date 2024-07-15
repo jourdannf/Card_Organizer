@@ -3,14 +3,14 @@ html(lang="en")
 head
     meta(charset = "UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Login
+    title Add a Card
 
 body
-    form(action="/" method="get")
-        label(for="username") Username:
+    form(action="../routes/cards" method="post")
+        label(for="person") Name:
         input(type="text")
         br
-        label(for="password") Password:
+        label(for="group") Group:
         input(type="text")
         br
         button Submit

@@ -40,13 +40,13 @@ router
                 const secResult = finalResult.filter(e => {
                     return newArray.includes(e);
                 })
-                console.log(finalResult);
                 finalResult = secResult;
                }
             }
             
-            if (finalResult.length != 0) res.json(finalResult);
-            else next();
+            if (finalResult.length != 0) {
+                res.json(finalResult);
+            } else next();
         }
     
     })
@@ -71,6 +71,15 @@ router
             cards.push(card);
             res.json(cards[cards.length-1]);
         }else next();
+    });
+
+router
+    .route("/:id")
+    .put((req,res,next) => {
+
+    })
+    .delete((req, res, next) => {
+
     })
 
 

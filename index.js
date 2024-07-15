@@ -1,6 +1,4 @@
 const express = require("express");
-const path = require("path");
-const router = express.Router();
 
 const app = express();
 const port = 3000;
@@ -15,22 +13,20 @@ app.set("view engine", "pug"); // specifying what view engine I want to use
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
 
-app.use("/cards", cards);
+app.use("/api/cards", cards);
 
-app.use(express.static("public"));
+app.get("/", async (req,res)=> {
+    let response = await fetch("http://localhost:3000/api/cards")
+    let allCards = await response.json()
 
-// router
-//     .route("/")
-//     .get((req,res)=> {
-//         //If you're logged in, you're redirected to home, otherwise you stay on the login/signup page
-//         res.send("Hello!");
-//         res.render("login");
-       
-//     })
 
-app.get("/", (req,res)=> {
-    res.render("login");
-})
+    if (Object.keys(allCards).length != 0) {
+        res.render("cardsDirectory", {data: allCards})
+    }
+    
+    
+});
+
 
 app.listen(port, ()=>{
     console.log("Server is running... ");
