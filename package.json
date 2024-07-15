@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "express": "^4.19.2"
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "pug": "^3.0.3"
   },
   "name": "sba-318_express_server_application",
   "version": "1.0.0",

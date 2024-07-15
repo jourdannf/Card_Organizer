@@ -4,6 +4,7 @@ const router = express.Router();
 
 //Getting the necessary data for this part of the application
 const cards = require("../data/cards");
+const fs = require("fs");
 
 //Get all the cards from the data set
 router
@@ -22,27 +23,6 @@ router
             });
 
             return filteredCards;
-
-        
-            // //Check if userID exists as a query; if so filter for all the IDs with that uesrID
-            // if (!q) {
-            //     return data
-            // }else {
-
-            //     const userCards = data.filter((c)=> {
-            //         //Check if any of the items are not in c
-            //         //Return false for any query item on the list that's not in queryList
-            //         for (let i = 0; i < queryList.length; i ++){
-            //             const item = queryList[i];
-            //             if (c[item] != req.query[item]){
-            //                 return false;
-            //             }
-            //         }
-            //         return true;
-            //     });
-
-            //     return userCards;
-            // }
         }
 
         let finalResult = [];
@@ -69,6 +49,28 @@ router
             else next();
         }
     
+    })
+    .post((req, res, next)=> {
+        if (req.body.userId && req.body.person && req.body.album && req.body.year && req.body.rarity && req.body.imgLink && request.body.collect){
+            const card = {
+                id: cards.length() + 1, //need to calculate id some way
+                userId: req.body.userId,
+                person: req.body.person,
+                group: "",
+                album: req.body.album,
+                year: req.body.year,
+                rarity: req.body.rarity,
+                imgLink: req.body.imgLink,
+                collect: req.body.collect
+            }
+
+            if (req.body.group){
+                card.group = req.body.group
+            }
+            
+            cards.push(card);
+            res.json(cards[cards.length-1]);
+        }else next();
     })
 
 
