@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 
 const cards = require("./routes/cards");
 
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
 
 app.use(express.static("public"));
+app.use(fileUpload());
 
 app.use("/api/cards", cards);
 

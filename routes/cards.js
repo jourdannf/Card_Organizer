@@ -52,9 +52,10 @@ router
     
     })
     .post((req, res, next)=> {
+        let cardImg;
         //Note: Users can submit the same card more than once as multiples of the same card can exist in a physical collection
 
-        if (req.body.userId && req.body.person && req.body.album && req.body.year && req.body.cardImg && request.body.collect){
+        if (req.body.userId && req.body.person && req.body.album && req.body.year && req.files.cardImg.name && request.body.collect){
             //Check if userId exists in users database, then create card and update users cardCollected
 
             const collected = req.body.collect == "true"? true : false;
@@ -68,11 +69,24 @@ router
                 res.end()
             }
 
+            //Add cardImg file to images folder
+            cardImg = req.files.cardImg;
+            let uploadPath = __dirname + "../public/images/" + cardImg.name
+
+            cardImg.mv(uploadPath, (err) => {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+
+                res.send("File Uploaded!");
+                res.redirect("/");
+            })
+
             //Check for card already in database
             //If in database, then checks if user is already collecting and updates the count if user already collects
 
             const sameCard = cards.find((c) => {
-                return (c.userId == req.body.userId)&& (c.person == req.body.person) && (c.album == req.body.album) && (c.year == req.body.year) && (c.cardImg == req.body.cardImg)
+                return (c.userId == req.body.userId)&& (c.person == req.body.person) && (c.album == req.body.album) && (c.year == req.body.year) && (c.cardImg == req.files.cardImg.name)
             })
 
             if (sameCard && sameCard.collect) {
@@ -95,7 +109,7 @@ router
                 album: req.body.album,
                 year: req.body.year,
                 rarity: 0,
-                cardImg: req.body.cardImg,
+                cardImg: req.files.cardImg.name,
                 collect: collected
             }
 
