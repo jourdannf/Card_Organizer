@@ -8,9 +8,29 @@ head
 body
     form(action="../routes/cards" method="post")
         label(for="person") Name:
-        input(type="text")
+            input#person(type="text" name="person" required)
         br
         label(for="group") Group:
-        input(type="text")
+            input#group(type="text" name="group")
         br
-        button(type="submit") Submit
+        label(for="cardImg") Upload a picture of the card: 
+            input#cardImg(type="file" accept="impage/png image/jpeg" name="cardImg" required)
+        br
+        label(for="album") Album it belongs to:
+            input#album(type="text", name="album")
+        br
+        label(for="year") Release Year:
+            input#year(type="text" name="year")
+        br
+        fieldset
+            label Do you currently have this card? 
+            label(for="collect") Yes
+                input#yes(type="radio" name="collect" value="true")
+            label(for="collect") No
+                input#no(type="radio" name="collect" value="false")
+        br 
+        - var userId = userId
+        input(type="hidden" name="userId" value=userId)
+        label(for="") 
+            input(type="submit" value="Submit")
+        

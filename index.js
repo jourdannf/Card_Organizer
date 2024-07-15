@@ -34,13 +34,13 @@ app.get("/", (req,res) => {
 
         
     })
-    
+
 app.post("/", (req, res) => {
         res.redirect("/addCard");
     })
 
-app.get("/addCard", (req, res) => {
-    res.render("addCards");
+app.get("/addCard", (req, res) => { //For testing purposes, the userId is automatically set to 203 but this would be a number generated from logging in
+    res.render("addCards", {userId: "203"});
 })
 
 
