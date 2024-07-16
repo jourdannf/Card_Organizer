@@ -74,25 +74,8 @@ router
             })
 
             if (!user){
-                next(error(404, "User doesn't exist"))
-                res.end()
+                return next(error(404, "User doesn't exist"))
             }
-
-            //Add cardImg file to images folder
-            cardImg = req.body.cardImg;
-            let uploadPath = __dirname + "../public/images/" + cardImg
-
-            // cardImg.mv(uploadPath, (err) => {
-            //     if (err) {
-            //         return res.status(500).send(err);
-            //     }
-
-            //     res.send("File Uploaded!");
-            //     res.redirect("/");
-            // })
-
-            //Check for card already in database
-            //If in database, then checks if user is already collecting and updates the count if user already collects
 
             const sameCard = cards.find((c) => {
                 return (c.userId == req.body.userId)&& (c.person == req.body.person) && (c.album == req.body.album) && (c.year == req.body.year) && (c.cardImg == req.body.cardImg)
@@ -100,14 +83,13 @@ router
 
             if (sameCard && sameCard.collect) {
                 sameCard.count += 1;
-                res.end();
+                return;
             }else if (sameCard && !sameCard.collect && collected){
                 sameCard.count += 1;
                 sameCard.collect == true;
-                res.end();
+                return;
             }else if (sameCard && !sameCard.collect && !collected){
-                res.end();
-                next(error(400, "Bad Request"));
+                return next(error(400, "Bad Request"));
             }
             
             const card = {
@@ -167,14 +149,17 @@ router
             }
         });
 
+        if (!card){
+            return next(error(404, "Resource not found"));
+        }
+
         const user = users.find((u) => {
             return u.userId == card.userId;
         })
 
         user.cardsCollected -= 1;
 
-        if (card) res.json(card);
-        else next();
+        res.json(card);
     })
 
 
