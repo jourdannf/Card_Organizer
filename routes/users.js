@@ -5,6 +5,7 @@ const router = express.Router();
 
 //Getting the data
 const users = require("../data/users");
+const error = require("../utilities/error");
 
 router
     .route("/")
@@ -12,14 +13,23 @@ router
         res.json(users);
     })
     .post((req, res, next) => {
+        
         if (req.body.name.first && req.body.name.last && req.body.profilePic && req.body.bio && req.body.username && req.body.password) {
+            const isMatch = users.find((u)=> {
+                return (req.body.username == u.username);
+            });
+    
+            if (isMatch) {
+                return next(error(404, "Resource already exists"))
+            }
+            
             const user = {
                 userId: users[users.length-1].userId + 1,
                 name: {
                     first: req.body.name.first,
                     last: req.body.name.last
                 },
-                profilePic: req.body.profilePic, //change to be similar to uploading pic in cards
+                profilePic: req.body.profilePic,
                 cardsCollected: 0,
                 bio: req.body.bio,
                 username: req.body.username,
@@ -28,6 +38,9 @@ router
 
             users.push(user);
             res.json(user);
+  
+        }else{
+            return next(error(400, "Bad Request"))
         }
     })
 
@@ -39,14 +52,15 @@ router
         })
 
         if (user) return res.json(user);
-        else next();
+        else return next();
     })
     .put((req, res) => {
         const user = users.find((u) => {
             if (u.userId == req.params.id) {
-                for (key in req.params){
-                    u[key] = req.params[key];
+                for (key in req.body){
+                    u[key] = req.body[key];
                 }
+                return true
             }
         });
 

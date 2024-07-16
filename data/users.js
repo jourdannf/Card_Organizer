@@ -17,9 +17,9 @@ const users = [
             first: "Cameron",
             last: "Smith"
         },
-        profilePic: "",
+        profilePic: "d",
         cardsCollected: 0,
-        bio: "",
+        bio: "s",
         username: "thebigsix",
         password: "Abc3dgf!"
     },
