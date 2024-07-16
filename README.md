@@ -1,5 +1,5 @@
 # Online Card Collection #
-----
+
 ## Project Overview ##
 
 This project implements a digital card collection with a fake database of cards and users using Objects provided in the data folder. 
