@@ -8,6 +8,7 @@ const fileUpload = require("express-fileupload");
 
 const cards = require("./routes/cards");
 const users = require("./routes/users");
+const error = require("./utilities/error")
 
 app.set("views", "./views"); //pointing to view directory
 app.set("view engine", "pug"); // specifying what view engine I want to use
@@ -48,10 +49,7 @@ app.get("/", (req,res) => {
             }
         }
 
-        getCards();
-
-
-        
+        getCards();        
     })
 
 app.post("/", (req, res) => {
@@ -64,21 +62,21 @@ app.get("/addCard", (req, res) => { //For testing purposes, the userId is automa
 
 // 404 Middleware
 app.use((req, res, next) => {
-    next(error(404, "Resource Not Found"));
-  });
+  next(error(404, "Resource Not Found"));
+});
   
-  // Error-handling middleware.
-  // Any call to next() that includes an
-  // Error() will skip regular middleware and
-  // only be processed by error-handling middleware.
-  // This changes our error handling throughout the application,
-  // but allows us to change the processing of ALL errors
-  // at once in a single location, which is important for
-  // scalability and maintainability.
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({ error: err.message });
-  });
+// Error-handling middleware.
+// Any call to next() that includes an
+// Error() will skip regular middleware and
+// only be processed by error-handling middleware.
+// This changes our error handling throughout the application,
+// but allows us to change the processing of ALL errors
+// at once in a single location, which is important for
+// scalability and maintainability.
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({ error: err.message });
+});
 
 app.listen(port, ()=>{
     console.log("Server is running... ");

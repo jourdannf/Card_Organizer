@@ -5,7 +5,8 @@ const router = express.Router();
 //Getting the necessary data for this part of the application
 const cards = require("../data/cards");
 const users = require("../data/users");
-const fs = require("fs");
+const error = require("../utilities/error");
+
 
 //Get all the cards from the data set
 router
@@ -55,7 +56,15 @@ router
         let cardImg;
         //Note: Users can submit the same card more than once as multiples of the same card can exist in a physical collection
 
-        if (req.body.userId && req.body.person && req.body.album && req.body.year && req.files.cardImg.name && request.body.collect){
+        // if (!req.files || Object.keys(req.files).length === 0){
+        //     return res.status(400).send("No files were uploaded");
+        // }
+
+        // if (!req.body.cardImg || Object.keys(req.body).length === 0){
+        //     return res.status(400).send("No files were uploaded");
+        // }
+
+        if (req.body.userId && req.body.person && req.body.album && req.body.year && req.body.cardImg && req.body.collect){
             //Check if userId exists in users database, then create card and update users cardCollected
 
             const collected = req.body.collect == "true"? true : false;
@@ -65,28 +74,28 @@ router
             })
 
             if (!user){
-                next()
+                next(error(404, "User doesn't exist"))
                 res.end()
             }
 
             //Add cardImg file to images folder
-            cardImg = req.files.cardImg;
-            let uploadPath = __dirname + "../public/images/" + cardImg.name
+            cardImg = req.body.cardImg;
+            let uploadPath = __dirname + "../public/images/" + cardImg
 
-            cardImg.mv(uploadPath, (err) => {
-                if (err) {
-                    return res.status(500).send(err);
-                }
+            // cardImg.mv(uploadPath, (err) => {
+            //     if (err) {
+            //         return res.status(500).send(err);
+            //     }
 
-                res.send("File Uploaded!");
-                res.redirect("/");
-            })
+            //     res.send("File Uploaded!");
+            //     res.redirect("/");
+            // })
 
             //Check for card already in database
             //If in database, then checks if user is already collecting and updates the count if user already collects
 
             const sameCard = cards.find((c) => {
-                return (c.userId == req.body.userId)&& (c.person == req.body.person) && (c.album == req.body.album) && (c.year == req.body.year) && (c.cardImg == req.files.cardImg.name)
+                return (c.userId == req.body.userId)&& (c.person == req.body.person) && (c.album == req.body.album) && (c.year == req.body.year) && (c.cardImg == req.body.cardImg)
             })
 
             if (sameCard && sameCard.collect) {
@@ -95,21 +104,21 @@ router
             }else if (sameCard && !sameCard.collect && collected){
                 sameCard.count += 1;
                 sameCard.collect == true;
-                res.end()
+                res.end();
             }else if (sameCard && !sameCard.collect && !collected){
-                next();
-                res.end()
+                res.end();
+                next(error(400, "Bad Request"));
             }
             
             const card = {
-                id: cards.length() + 1, //need to calculate id some way
+                id: cards.length + 1, //need to calculate id some way
                 userId: req.body.userId,
                 person: req.body.person,
                 group: "",
                 album: req.body.album,
                 year: req.body.year,
                 rarity: 0,
-                cardImg: req.files.cardImg.name,
+                cardImg: req.body.cardImg,
                 collect: collected
             }
 
