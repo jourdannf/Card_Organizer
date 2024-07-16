@@ -10,10 +10,10 @@ html(lang="en")
 
     body
         h1(class="text-center") Card Directory
-        div(class="row")
+        div(class="row card-deck")
             each card in data 
                 div(class="card col-4")
-                    img(src=card.cardImg, alt=`Picture of ${card.person}`)
+                    img(src=card.cardImg, alt=`Picture of ${card.person}` class="card-img-top text-center" style="max-height: 700px; min-height: 150px; object-fit: cover")
                     div(class="card-body text-center")
                         h3= card.person
                         h4= card.group

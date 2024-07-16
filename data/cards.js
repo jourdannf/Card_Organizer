@@ -7,7 +7,7 @@ const cards = [
         album: "Troubleshooter",
         year: "2022",
         rarity: 5,
-        cardImg: "",
+        cardImg: "../img/choi_yujin_troubleshooter.jpeg",
         collect: true,
         count: 1
     },
@@ -19,7 +19,7 @@ const cards = [
         album: "Diamond",
         year: "2024",
         rarity: 2,
-        cardImg: "",
+        cardImg: "../img/songsun_diamond.jpeg",
         collect: true,
         count: 2
     },
@@ -31,7 +31,7 @@ const cards = [
         album: "Troubleshooter",
         year: "2022",
         rarity: 5,
-        cardImg: "",
+        cardImg: "../img/choi_yujin_troubleshooter.jpeg",
         collect: false,
         count: 0
     },
@@ -43,7 +43,7 @@ const cards = [
         album: "ISLAND",
         year: "2020",
         rarity: 1,
-        cardImg: "",
+        cardImg: "../img/youha_island.jpeg",
         collect: true,
         count: 3
     },
@@ -55,7 +55,7 @@ const cards = [
         album: "28 Reasons",
         year: "2023",
         rarity: 1,
-        cardImg: "",
+        cardImg: "../img/seulgi_28reasons.jpeg",
         collect: true,
         count: 1
     },
@@ -67,7 +67,7 @@ const cards = [
         album: "The Perfect Red Velvet",
         year: "2018",
         rarity: 3,
-        cardImg: "",
+        cardImg: "../img/seulgi_the_perfect_red_velvet.jpg",
         collect: false,
         count: 0
     }

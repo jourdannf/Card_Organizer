@@ -5,6 +5,7 @@ const port = 3000;
 
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const path = require('path')
 
 const cards = require("./routes/cards");
 const users = require("./routes/users");
@@ -31,11 +32,13 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use(express.static("public"));
+// app.use("/static", express.static("public"));
 app.use(fileUpload());
 
 app.use("/api/cards", cards);
 app.use("/api/users", users);
+
+app.use("/img", express.static(path.join(__dirname, 'public/images')));
 
 app.get("/", (req,res) => {
 
